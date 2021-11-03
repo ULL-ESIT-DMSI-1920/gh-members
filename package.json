@@ -1,0 +1,25 @@
+{
+  "name": "gh-members",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gh-members.js",
+  "scripts": {
+    "start": "node gh-members",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ULL-ESIT-DMSI-1920/gh-members.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ULL-ESIT-DMSI-1920/gh-members/issues"
+  },
+  "homepage": "https://github.com/ULL-ESIT-DMSI-1920/gh-members#readme",
+  "dependencies": {
+    "commander": "^8.3.0",
+    "shelljs": "^0.8.4"
+  }
+}
