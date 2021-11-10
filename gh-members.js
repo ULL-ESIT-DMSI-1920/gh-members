@@ -1,5 +1,4 @@
-#!/home/usuario/.nvm/versions/node/v14.18.0/bin/node
-//#!/home/gitpod/.nvm/versions/node/v16.13.0/bin/node
+#! /usr/bin/env node
 
 const ins = require("util").inspect;
 const deb = (...args) => { 
@@ -13,26 +12,34 @@ const program = new Command();
 
 const config = require('./package.json');
 
-if (!shell.which('git')) shell.echo("Git not installed.")
-if (!shell.which('gh')) shell.echo("gh not installed.")
+if (!shell.which('git')){
+  shell.echo("Git not installed.");
+  shell.exit(1);
+}
+
+if (!shell.which('gh')){
+  shell.echo("gh not installed.");
+  shell.exit(1);
+}
 
 program
   .version(config.version)
   .option('-r, --repo <repo>', 'Repository')
   .option('-o, --owner <owner>', 'Owner')
+  .parse(process.argv);
 
-program.parse(process.argv);
+const {args} = program;
+const {repo, owner} = program.opts();
 
-const options = program.opts();
+if ((!repo || !owner) && args.length === 1){
+  console.log("I need more arguments. Sending help.")
 
-if (!options.owner){
-  if(program.args.length < 2){
-    console.log("No arguments specified. Sending help.")
-
-    program.help();
-  }
+  program.help();
+  shell.exit(1);
 }
 
-if (options.repo) console.log(`Repository: ${options.repo}`);
+console.log(args);
 
-if (options.owner) console.log(`Owner: ${options.owner}`);
+if (repo) console.log(`Repository: ${repo}`);
+
+if (owner) console.log(`Owner: ${owner}`);
