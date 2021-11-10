@@ -1,4 +1,5 @@
-#!/home/gitpod/.nvm/versions/node/v16.13.0/bin/node
+#!/home/usuario/.nvm/versions/node/v14.18.0/bin/node
+//#!/home/gitpod/.nvm/versions/node/v16.13.0/bin/node
 
 const ins = require("util").inspect;
 const deb = (...args) => { 
@@ -10,19 +11,19 @@ const shell = require('shelljs');
 const { Command } = require('commander');
 const program = new Command();
 
+const config = require('./package.json');
+
 if (!shell.which('git')) shell.echo("Git not installed.")
 if (!shell.which('gh')) shell.echo("gh not installed.")
 
 program
-  .version('8.3.0')
+  .version(config.version)
   .option('-r, --repo <repo>', 'Repository')
   .option('-o, --owner <owner>', 'Owner')
 
 program.parse(process.argv);
 
 const options = program.opts();
-
-const owner;
 
 if (!options.owner){
   if(program.args.length < 2){
@@ -31,7 +32,6 @@ if (!options.owner){
     program.help();
   }
 }
-
 
 if (options.repo) console.log(`Repository: ${options.repo}`);
 
