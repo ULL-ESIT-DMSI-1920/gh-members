@@ -24,33 +24,24 @@ if (!shell.which('gh')) {
 
 program
 	.version(config.version)
-	.option('-r, --repo <repo>', 'Repository')
-	.option('-o, --owner <owner>', 'Owner')
+	.option('-r, --repo', 'List repositories of owner')
+	.option('-o, --owner <owner>', 'Specify owner')
 	.parse(process.argv);
 
 const { args } = program;
 const { repo, owner } = program.opts();
 
-if (!repo || !owner) {
-	console.log("Repository or Owner not specified. Sending help...");
+if (!owner) {
+	console.log("Owner not specified. Sending help...");
 
 	program.help();
 	shell.exit(1);
-} else if (args.length === 0) {
-	console.log("New name not specified. Sending help...");
-
-	program.help();
-	shell.exit(1);
-} else {
-	console.log(`Repository: ${repo}`);
-	console.log(`Owner: ${owner}`);
-	console.log(`New name: ${args[0]}`);
-
-	shell.exit(0);
 }
 
-// console.log(args);
+console.log(`\n-- Members of ${owner} --\n`);
+shell.exec(`gh api -X GET /orgs/${owner}/members --jq ".[].login"`);
 
-// if (repo) console.log(`Repository: ${repo}`);
-
-// if (owner) console.log(`Owner: ${owner}`);
+if (repo) {
+	console.log(`\n-- Repositories of ${owner} --\n`);
+	shell.exec(`gh api -X GET /orgs/${owner}/repos --jq '.[].name'`);
+}
