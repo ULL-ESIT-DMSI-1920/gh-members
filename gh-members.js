@@ -26,7 +26,8 @@ program
 	.version(config.version)
 	.option('-r, --repo', 'List repositories of owner')
 	.option('-o, --owner <owner>', 'Specify owner')
-	.parse(process.argv);
+
+program.parse(process.argv);
 
 const { args } = program;
 const { repo, owner } = program.opts();
