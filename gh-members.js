@@ -30,9 +30,25 @@ program
 program.parse(process.argv);
 
 const { args } = program;
-const { repo, owner } = program.opts();
+var { repo, owner } = program.opts();
 
-if (!owner) {
+if (!owner && args.length == 1) {
+	owner = args[0].split("/")[0];
+	var repoName = args[0].split("/")[1];
+
+	console.log(`\n-- Information of ${repoName} --`)
+
+	console.log('\n\t-> Links to files:');
+	shell.exec(`gh api -X GET /repos/${owner}/${repoName}/contents --jq '.[] | .name, .html_url'`);
+
+	console.log('\n\t-> Branches:');
+	shell.exec(`gh api -X GET /repos/${owner}/${repoName}/branches --jq '.[] | .name'`);
+
+	console.log('\n\t-> Contributors:');
+	shell.exec(`gh api -X GET /repos/${owner}/${repoName}/contributors --jq '.[].login'`)
+
+	shell.exit(0);
+}else if (!owner) {
 	console.log("Owner not specified. Sending help...");
 
 	program.help();
@@ -45,4 +61,9 @@ shell.exec(`gh api -X GET /orgs/${owner}/members --jq ".[].login"`);
 if (repo) {
 	console.log(`\n-- Repositories of ${owner} --\n`);
 	shell.exec(`gh api -X GET /orgs/${owner}/repos --jq '.[].name'`);
+}
+
+if (repoName) {
+	
+	//console.log("\n URL de README.md:", r.);
 }
