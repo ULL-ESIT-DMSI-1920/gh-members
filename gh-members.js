@@ -62,8 +62,3 @@ if (repo) {
 	console.log(`\n-- Repositories of ${owner} --\n`);
 	shell.exec(`gh api -X GET /orgs/${owner}/repos --jq '.[].name'`);
 }
-
-if (repoName) {
-	
-	//console.log("\n URL de README.md:", r.);
-}
