@@ -44,9 +44,6 @@ if (!owner && args.length == 1) {
 	console.log('\n\t-> Branches:');
 	shell.exec(`gh api -X GET /repos/${owner}/${repoName}/branches --jq '.[] | .name'`);
 
-	console.log('\n\t-> Contributors:');
-	shell.exec(`gh api -X GET /repos/${owner}/${repoName}/contributors --jq '.[].login'`)
-
 	shell.exit(0);
 }else if (!owner) {
 	console.log("Owner not specified. Sending help...");
@@ -61,4 +58,4 @@ shell.exec(`gh api -X GET /orgs/${owner}/members --jq ".[].login"`);
 if (repo) {
 	console.log(`\n-- Repositories of ${owner} --\n`);
 	shell.exec(`gh api -X GET /orgs/${owner}/repos --jq '.[].name'`);
-}
+} 
